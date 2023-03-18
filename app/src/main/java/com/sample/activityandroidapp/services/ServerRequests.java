@@ -2,7 +2,10 @@ package com.sample.activityandroidapp.services;
 
 import android.content.Context;
 
+import androidx.annotation.Nullable;
+
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -14,6 +17,9 @@ import com.sample.activityandroidapp.common.Constants;
 import com.sample.activityandroidapp.intefaces.ServerListener;
 import com.sample.activityandroidapp.models.Users;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ServerRequests {
 
     Context mContext;
@@ -23,21 +29,49 @@ public class ServerRequests {
     }
 
     public void login(Users users, ServerListener listener) {
-        String request = new Gson().toJson(users);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.loginURL, response -> listener.onSuccess(response), error -> listener.onError()) {
+//        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.loginURL, response -> listener.onSuccess(response), error -> listener.onError()) {
+//            @Nullable
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                Map<String,String> params = new HashMap<>();
+//                params.put("username",users.getUserName());
+//                params.put("password",users.getPassword());
+//                return params;
+//            }
+//
+//            @Override
+//            public String getBodyContentType() {
+//                return "multipart/form-data";
+//            }
+//        };
+
+
+        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, Constants.loginURL, new Response.Listener<NetworkResponse>() {
             @Override
-            public byte[] getBody() throws AuthFailureError {
-                return request.getBytes();
+            public void onResponse(NetworkResponse response) {
+                String resultResponse = new String(response.data);
+                listener.onSuccess(resultResponse);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                listener.onError();
+            }
+        }) {
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("username", users.getUserName());
+                params.put("password", users.getPassword());
+                return params;
             }
 
-            @Override
-            public String getBodyContentType() {
-                return "application/json";
-            }
+
         };
-
-        RequestQueue queue = Volley.newRequestQueue(mContext);
-        queue.add(stringRequest);
+        VolleySingleton.getInstance(mContext).addToRequestQueue(multipartRequest);
+//        RequestQueue queue = Volley.newRequestQueue(mContext);
+//        queue.add(stringRequest);
     }
 
 }

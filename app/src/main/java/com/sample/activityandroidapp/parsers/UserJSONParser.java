@@ -12,7 +12,7 @@ public class UserJSONParser {
             JSONObject userObject = new JSONObject(response);
             Users users = new Users.UserBuilder()
                     .setUserID(userObject.getInt("userID"))
-                    .setUserName(userObject.getString("userName"))
+                    .setUserName(userObject.getString("username"))
                     .setPassword(userObject.getString("password"))
                     .build();
             return users;

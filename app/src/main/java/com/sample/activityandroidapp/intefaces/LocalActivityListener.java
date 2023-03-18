@@ -1,7 +1,9 @@
 package com.sample.activityandroidapp.intefaces;
 
+import com.sample.activityandroidapp.models.Users;
+
 public interface LocalActivityListener {
-    default void callOnFinish(){
+    default void callOnFinish(Users users){
 
     }
 

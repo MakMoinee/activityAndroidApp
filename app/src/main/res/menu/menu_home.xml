@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_heroes"
-        android:icon="@drawable/heroes"
+        android:id="@+id/action_weapons"
+        android:icon="@drawable/gun"
         android:orderInCategory="100"
-        android:title="Heroes"
+        android:title="Weapons"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_favorites"

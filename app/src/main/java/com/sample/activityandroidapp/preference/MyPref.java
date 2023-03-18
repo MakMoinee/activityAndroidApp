@@ -19,6 +19,8 @@ public class MyPref {
         editor.putInt("userID", users.getUserID());
         editor.putString("userName", users.getUserName());
         editor.putString("password", users.getPassword());
+        editor.commit();
+        editor.apply();
     }
 
     public Users getUsers() {

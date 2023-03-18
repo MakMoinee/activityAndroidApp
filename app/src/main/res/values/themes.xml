@@ -20,4 +20,12 @@
         <item name="colorPrimary">@color/valorant</item>
         <item name="colorSecondary">@color/white</item>
     </style>
+
+
+    <style name="CloseTheme" parent="Theme.Design.Light.NoActionBar">
+        <item name="android:fontFamily">@font/valorant</item>
+        <item name="android:textSize">18sp</item>
+        <item name="colorPrimary">#5CD5FA</item>
+        <item name="colorSecondary">@color/white</item>
+    </style>
 </resources>

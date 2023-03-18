@@ -42,8 +42,15 @@ public class ProfileActivity extends AppCompatActivity implements LocalActivityL
                 defaultMenuOpt.showHome();
                 finish();
                 return true;
+            case R.id.action_settings:
+                defaultMenuOpt.showSettings();
+                return true;
             case R.id.action_logout:
                 logout.showLogout();
+                return true;
+            case R.id.action_ext:
+                finishAffinity();
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -1,6 +1,7 @@
 package com.sample.activityandroidapp;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -11,12 +12,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.sample.activityandroidapp.databinding.ActivityWelcomeBinding;
 import com.sample.activityandroidapp.models.Users;
 import com.sample.activityandroidapp.preference.MyPref;
+import com.sample.activityandroidapp.preference.SoundPref;
 
 public class WelcomeActivity extends AppCompatActivity {
 
     ActivityWelcomeBinding binding;
     private int progressStatus = 0;
     private Handler handler = new Handler();
+
+    MediaPlayer mp;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,8 +31,13 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void setValues() {
+        Users users = new MyPref(WelcomeActivity.this).getUsers();
+        mp = MediaPlayer.create(WelcomeActivity.this, R.raw.valorant);
+        Boolean isPlay = new SoundPref(WelcomeActivity.this).isPlay();
+        if (isPlay) mp.start();
+
         new Thread(() -> {
-            while (progressStatus < 100) {
+            while (progressStatus < 200) {
                 progressStatus += 20;
                 // Update the progress bar and display the
                 //current value in the text view
@@ -45,14 +54,17 @@ public class WelcomeActivity extends AppCompatActivity {
                     Log.e("WELCOME_ACTIVITY_ERR", e.getMessage());
                 }
 
-                if (progressStatus == 100) {
-                    Users users = new MyPref(WelcomeActivity.this).getUsers();
+                if (progressStatus == 200) {
                     if (users.getUserID() == 0) {
+                        mp.pause();
+                        mp.stop();
                         Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
-                    }else{
-                        Intent intent = new Intent(WelcomeActivity.this,DashboardActivity.class);
+                    } else {
+                        mp.pause();
+                        mp.stop();
+                        Intent intent = new Intent(WelcomeActivity.this, DashboardActivity.class);
                         startActivity(intent);
                         finish();
                     }
