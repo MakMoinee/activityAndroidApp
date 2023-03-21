@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog;
 import com.sample.activityandroidapp.intefaces.LocalActivityListener;
 import com.sample.activityandroidapp.models.Users;
 import com.sample.activityandroidapp.preference.MyPref;
+import com.sample.activityandroidapp.preference.SoundPref;
 
 
 public class LogoutImpl {
@@ -26,6 +27,7 @@ public class LogoutImpl {
             switch (which) {
                 case DialogInterface.BUTTON_NEGATIVE:
                     new MyPref(mContext).saveUsers(new Users());
+                    new SoundPref(mContext).saveIsPlay(true);
                     dialog.dismiss();
                     listener.onLogOut();
                     break;

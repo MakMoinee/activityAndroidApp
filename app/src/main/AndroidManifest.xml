@@ -41,6 +41,11 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.ActivityAndroidApp" />
+        <activity
+            android:name=".AboutAppActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.ActivityAndroidApp" />
     </application>
 
 </manifest>

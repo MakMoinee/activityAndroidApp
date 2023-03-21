@@ -10,42 +10,39 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.sample.activityandroidapp.databinding.ActivityProfileBinding;
+import com.sample.activityandroidapp.databinding.ActivityAboutBinding;
 import com.sample.activityandroidapp.impl.DefaultMenuOptImpl;
 import com.sample.activityandroidapp.impl.LogoutImpl;
 import com.sample.activityandroidapp.intefaces.LocalActivityListener;
 import com.sample.activityandroidapp.preference.SoundPref;
 import com.sample.activityandroidapp.preference.ThemePref;
 
-public class ProfileActivity extends AppCompatActivity implements LocalActivityListener {
+public class AboutAppActivity extends AppCompatActivity implements LocalActivityListener {
 
-    ActivityProfileBinding binding;
-    DefaultMenuOptImpl defaultMenuOpt = new DefaultMenuOptImpl(ProfileActivity.this);
-    LogoutImpl logout = new LogoutImpl(ProfileActivity.this, ProfileActivity.this);
-
+    ActivityAboutBinding binding;
     MediaPlayer mp;
+
+    LogoutImpl logout = new LogoutImpl(AboutAppActivity.this, AboutAppActivity.this);
+    DefaultMenuOptImpl defaultMenuOpt = new DefaultMenuOptImpl(AboutAppActivity.this);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int theme = new ThemePref(ProfileActivity.this).getTheme();
+        int theme = new ThemePref(AboutAppActivity.this).getTheme();
         if (theme == 0) {
-            new ThemePref(ProfileActivity.this).saveThemeName(R.style.DefaultTheme);
+            new ThemePref(AboutAppActivity.this).saveThemeName(R.style.DefaultTheme);
         } else {
             setTheme(theme);
-
         }
-        binding = ActivityProfileBinding.inflate(getLayoutInflater());
-        mp = MediaPlayer.create(ProfileActivity.this, R.raw.valorant);
-        Boolean isPlay = new SoundPref(ProfileActivity.this).isPlay();
+        binding = ActivityAboutBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        setTitle("About App");
+        mp = MediaPlayer.create(AboutAppActivity.this, R.raw.valorant);
+        Boolean isPlay = new SoundPref(AboutAppActivity.this).isPlay();
         if (isPlay) {
             mp.setLooping(true);
             mp.start();
         }
-
-        setContentView(binding.getRoot());
-
-        setTitle("Profile");
     }
 
 
@@ -63,12 +60,12 @@ public class ProfileActivity extends AppCompatActivity implements LocalActivityL
                 defaultMenuOpt.showHome();
                 finish();
                 return true;
-            case R.id.action_settings:
-                defaultMenuOpt.showSettings(mp, ProfileActivity.this);
-                return true;
-            case R.id.action_about:
-                defaultMenuOpt.showAboutApp();
+            case R.id.action_profile:
+                defaultMenuOpt.showProfile();
                 finish();
+                return true;
+            case R.id.action_settings:
+                defaultMenuOpt.showSettings(mp,AboutAppActivity.this);
                 return true;
             case R.id.action_logout:
                 logout.showLogout();
@@ -85,9 +82,20 @@ public class ProfileActivity extends AppCompatActivity implements LocalActivityL
 
     @Override
     public void onLogOut() {
-        Intent intent = new Intent(ProfileActivity.this, WelcomeActivity.class);
+        Intent intent = new Intent(AboutAppActivity.this, WelcomeActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Boolean isPlay = new SoundPref(AboutAppActivity.this).isPlay();
+        if (mp.isPlaying()) mp.pause();
+        if (isPlay) {
+            mp.setLooping(true);
+            mp.start();
+        }
     }
 
     @Override

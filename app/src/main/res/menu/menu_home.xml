@@ -8,9 +8,9 @@
         android:title="Weapons"
         app:showAsAction="always" />
     <item
-        android:id="@+id/action_favorites"
-        android:icon="@drawable/favorites"
+        android:id="@+id/action_users"
+        android:icon="@drawable/ic_users"
         android:orderInCategory="100"
-        android:title="Favorites"
+        android:title="Users"
         app:showAsAction="always" />
 </menu>

@@ -9,7 +9,7 @@
     <item
         android:id="@+id/action_profile"
         android:orderInCategory="100"
-        android:title="Profile"
+        android:title="Owner's Profile"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_settings"
@@ -19,7 +19,7 @@
     <item
         android:id="@+id/action_about"
         android:orderInCategory="100"
-        android:title="About Us"
+        android:title="About App"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_logout"

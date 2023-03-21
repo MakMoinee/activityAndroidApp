@@ -13,6 +13,7 @@ import com.sample.activityandroidapp.databinding.ActivityWelcomeBinding;
 import com.sample.activityandroidapp.models.Users;
 import com.sample.activityandroidapp.preference.MyPref;
 import com.sample.activityandroidapp.preference.SoundPref;
+import com.sample.activityandroidapp.preference.ThemePref;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -25,6 +26,22 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        int theme = new ThemePref(WelcomeActivity.this).getTheme();
+        if (theme == 0) {
+            new ThemePref(WelcomeActivity.this).saveThemeName(R.style.DefaultTheme);
+        } else {
+            switch (theme) {
+                case R.style.DefaultTheme:
+                    setTheme(R.style.DefaultThemeSplash);
+                    break;
+                case R.style.YellowTheme:
+                    setTheme(R.style.YellowThemeSplash);
+                    break;
+                case R.style.VioletTheme:
+                    setTheme(R.style.VioletThemeSplash);
+                    break;
+            }
+        }
         binding = ActivityWelcomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setValues();
@@ -35,7 +52,6 @@ public class WelcomeActivity extends AppCompatActivity {
         mp = MediaPlayer.create(WelcomeActivity.this, R.raw.valorant);
         Boolean isPlay = new SoundPref(WelcomeActivity.this).isPlay();
         if (isPlay) mp.start();
-
         new Thread(() -> {
             while (progressStatus < 200) {
                 progressStatus += 20;

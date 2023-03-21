@@ -1,6 +1,7 @@
 package com.sample.activityandroidapp.services;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -72,6 +73,48 @@ public class ServerRequests {
         VolleySingleton.getInstance(mContext).addToRequestQueue(multipartRequest);
 //        RequestQueue queue = Volley.newRequestQueue(mContext);
 //        queue.add(stringRequest);
+    }
+
+
+    public void getAllWeapons(ServerListener listener) {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, "https://valorant-api.com/v1/weapons", response -> listener.onSuccess(response), error -> {
+            Log.e("ERROR_GET_ALL_WEAPONS", error.getMessage());
+            listener.onError();
+        });
+
+        RequestQueue queue = Volley.newRequestQueue(mContext);
+        queue.add(stringRequest);
+    }
+
+
+    public void getAllUsers(ServerListener listener) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.usersURL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                listener.onSuccess(response);
+            }
+        }, error -> listener.onError());
+        RequestQueue queue = Volley.newRequestQueue(mContext);
+        queue.add(stringRequest);
+    }
+
+    public void deleteUser(String id, ServerListener listener) {
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, Constants.usersURL, response -> {
+            String resultResponse = new String(response.data);
+            listener.onSuccess(resultResponse);
+        }, error -> listener.onError()) {
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("action", "delete");
+                params.put("id", id);
+                return params;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(mContext);
+        queue.add(volleyMultipartRequest);
     }
 
 }

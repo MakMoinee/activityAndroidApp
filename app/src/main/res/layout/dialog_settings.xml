@@ -17,11 +17,51 @@
             android:textColor="@android:color/black"
             android:textSize="18sp" />
 
+
+        <TextView
+            android:id="@+id/lblTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblSettings"
+            android:layout_marginTop="20dp"
+            android:text="Theme"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <RadioGroup
+            android:id="@+id/radioTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lblTheme"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/defaultTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Default" />
+
+            <RadioButton
+                android:id="@+id/yellowTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Yellow" />
+
+            <RadioButton
+                android:id="@+id/violetTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Violet" />
+        </RadioGroup>
+
         <TextView
             android:id="@+id/lblBackground"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lblSettings"
+            android:layout_below="@+id/radioTheme"
             android:layout_marginTop="20dp"
             android:text="Background Music"
             android:textColor="@android:color/black"

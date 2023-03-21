@@ -10,4 +10,11 @@ public interface LocalActivityListener {
     default void onLogOut() {
 
     }
+
+    default void stopMedia(){
+
+    }
+    default void playMedia(){
+
+    }
 }
