@@ -19,6 +19,7 @@ public class MyPref {
         editor.putInt("userID", users.getUserID());
         editor.putString("userName", users.getUserName());
         editor.putString("password", users.getPassword());
+        editor.putInt("userType", users.getUserType());
         editor.commit();
         editor.apply();
     }
@@ -28,6 +29,7 @@ public class MyPref {
                 .setUserID(pref.getInt("userID", 0))
                 .setUserName(pref.getString("userName", ""))
                 .setPassword(pref.getString("password", ""))
+                .setUserType(pref.getInt("userType", 0))
                 .build();
 
         return users;

@@ -14,7 +14,7 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="DefaultTheme" parent="Theme.Design.Light">
+    <style name="DefaultTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/valorant</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -29,7 +29,6 @@
     </style>
 
     <style name="DefaultThemeSplash" parent="Theme.Design.NoActionBar">
-        <item name="android:textColor">#FFFFFF</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/valorant</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -50,7 +49,7 @@
         <item name="colorSecondary">@color/white</item>
     </style>
 
-    <style name="VioletTheme" parent="Theme.Design.Light">
+    <style name="VioletTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!--        <item name="android:fontFamily">@font/valorant</item>-->
         <!--        <item name="android:textSize">18sp</item>-->
         <item name="colorPrimary">#9C27B0</item>
@@ -64,7 +63,7 @@
         <item name="colorSecondary">@color/white</item>
     </style>
 
-    <style name="YellowTheme" parent="Theme.Design.Light">
+    <style name="YellowTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
 <!--        <item name="android:fontFamily">@font/valorant</item>-->
 <!--        <item name="android:textSize">18sp</item>-->
         <item name="colorPrimary">#FFEB3B</item>

@@ -117,4 +117,25 @@ public class ServerRequests {
         queue.add(volleyMultipartRequest);
     }
 
+    public void editUser(Users users,ServerListener listener){
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, Constants.usersURL, response -> {
+            String resultResponse = new String(response.data);
+            listener.onSuccess(resultResponse);
+        }, error -> listener.onError()) {
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("action", "update");
+                params.put("userID", Integer.toString(users.getUserID()));
+                params.put("username",users.getUserName());
+                params.put("password",users.getPassword());
+                return params;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(mContext);
+        queue.add(volleyMultipartRequest);
+    }
+
 }

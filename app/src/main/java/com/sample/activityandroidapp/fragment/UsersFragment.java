@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.sample.activityandroidapp.adapters.UsersAdapter;
 import com.sample.activityandroidapp.databinding.DialogEditDeleteUserBinding;
+import com.sample.activityandroidapp.databinding.DialogEditUserOnlyBinding;
 import com.sample.activityandroidapp.databinding.FragmentUserBinding;
 import com.sample.activityandroidapp.intefaces.AdapterListener;
 import com.sample.activityandroidapp.intefaces.ServerListener;
@@ -33,14 +34,14 @@ public class UsersFragment extends Fragment {
     FragmentUserBinding binding;
 
     DialogEditDeleteUserBinding editDeleteUserBinding;
-
+    DialogEditUserOnlyBinding editBinding;
     Context mContext;
     List<Users> usersList;
     ServerRequests request;
 
     UsersAdapter adapter;
 
-    AlertDialog alertDialog;
+    AlertDialog alertDialog, alertEditDialog;
     Users selectedUser;
 
     public UsersFragment(Context mContext, List<Users> usersList) {
@@ -71,9 +72,11 @@ public class UsersFragment extends Fragment {
                 binding.lv.setOnItemClickListener((parent, view, position, id) -> {
                     selectedUser = usersList.get(position);
                     Users currentUser = new MyPref(mContext).getUsers();
-                    if(currentUser.getUserID()== selectedUser.getUserID()){
+                    if (currentUser.getUserID() == selectedUser.getUserID()) {
                         Toast.makeText(mContext, "Selected user is the current user", Toast.LENGTH_SHORT).show();
-                    }else{
+                    } else if (currentUser.getUserType() != 1) {
+                        Toast.makeText(mContext, "Current User is not authorized to Edit/Delete User", Toast.LENGTH_SHORT).show();
+                    } else {
                         AlertDialog.Builder mBuilder = new AlertDialog.Builder(mContext);
                         editDeleteUserBinding = DialogEditDeleteUserBinding.inflate(getLayoutInflater(), null, false);
                         mBuilder.setView(editDeleteUserBinding.getRoot());
@@ -125,6 +128,58 @@ public class UsersFragment extends Fragment {
                     .setCancelable(false)
                     .show();
 
+        });
+        editDeleteUserBinding.btnEditUser.setOnClickListener(v -> {
+            AlertDialog.Builder eBuilder = new AlertDialog.Builder(mContext);
+            editBinding = DialogEditUserOnlyBinding.inflate(getLayoutInflater(), null, false);
+            eBuilder.setView(editBinding.getRoot());
+            setEditUserDialogListener();
+            alertEditDialog = eBuilder.create();
+            alertEditDialog.show();
+        });
+
+    }
+
+    private void setEditUserDialogListener() {
+
+        editBinding.editUsername.setText(selectedUser.getUserName());
+        editBinding.btnUpdateUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String username = editBinding.editUsername.getText().toString();
+                String password = editBinding.editPassword.getText().toString();
+                String confirmPass = editBinding.editConfirmPassword.getText().toString();
+
+                if (username.equals("") || password.equals("") || confirmPass.equals("")) {
+                    Toast.makeText(mContext, "Please Don't Leave Empty Fields", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (password.equals(confirmPass)) {
+                        Users nUser = new Users.UserBuilder()
+                                .setUserID(selectedUser.getUserID())
+                                .setUserName(username)
+                                .setPassword(password)
+                                .build();
+                        request.editUser(nUser, new ServerListener() {
+
+                            @Override
+                            public void onSuccess(String response) {
+                                Toast.makeText(mContext, response, Toast.LENGTH_SHORT).show();
+                                alertEditDialog.dismiss();
+                                alertDialog.dismiss();
+                                binding.lv.setAdapter(null);
+                                loadData();
+                            }
+
+                            @Override
+                            public void onError() {
+                                Toast.makeText(mContext, "Failed To Update User", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        Toast.makeText(mContext, "Password doesn't match", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
         });
     }
 }
